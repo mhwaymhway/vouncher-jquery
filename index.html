@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fonts/remixicon.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="my-5">
+                    <h4 class="text-info">Voucher App (Apply jQuery)</h4>
+                    <h6 class="text-primary">Bootstrap & jQuery</h6>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h4 class="text-secondary">Product List</h4>
+                    <button class="btn btn-primary">
+                        <i class="ri-add-fill add-btn"></i>
+                    </button>
+                </div>
+                <div class="">
+                    <table class="table table-bordered table-hover my-4">
+                        <thead>
+                            <tr>
+                                <th class="">#</th>
+                                <th class="">Product Name</th>
+                                <th class="text-right">Costs</th>
+                                <th class="text-right">Quantity</th>
+                                <th class="text-right">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="text-center font-weight-bold" colspan="4">Total</td>
+                                <td>
+                                    <h4 class="mb-0 font-weight-bold text-right total">0</h4>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/jQuery.js"></script>
+<script>
+    function addRow(){
+         $("tbody").append(`
+         <tr>
+                                <td>
+                                    <button class="btn btn-outline-primary width-50 del-btn">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <input type="text" name="" id="" class="product-name form-control width-300">
+                                </td>
+                                <td>
+                                    <input type="number" name="" class="form-control cost text-right width-150" min="0" value="0" id="">
+                                </td>
+                                <td>
+                                    <input type="number" name="" class="quantity form-control text-right width-150" min="0" value="0" id="">
+                                </td>
+                                <td>
+                                    <h4 class="price text-right width-50 mb-0">0</h4>
+                                </td>
+                            </tr>
+    `)
+
+    }
+    addRow();
+    $(".add-btn").click(function(){
+        addRow();
+    })
+    function total(){
+       $(".total").html($(".price").toArray().map(el=>el.innerHTML).reduce((x,y)=>Number(x)+Number(y)));
+    }
+    
+    $("tbody").delegate(".del-btn","click",function(){
+        if($("tbody tr").toArray().length === 1){
+            addRow();
+        }
+        
+        $(this).parentsUntil("tbody").remove();
+        total();
+    })
+    $("tbody").delegate("input","keyup change",function(){
+        let cost = $(this).parentsUntil("tbody").find(".cost").val();
+        let quantity = $(this).parentsUntil("tbody").find(".quantity").val();
+        $(this).parentsUntil("tbody").find(".price").html(cost*quantity);
+        total();
+    })
+    
+
+   </script>
+</html>
